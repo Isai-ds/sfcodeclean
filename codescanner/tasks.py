@@ -1,18 +1,8 @@
-from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-
-from django.conf import settings
-
 from . import models
 from . import utils
 from .scanner import ScanJob
-
-import requests
-import datetime
-import sys
 import traceback
-
-
 
 
 @shared_task

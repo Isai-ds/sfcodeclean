@@ -38,7 +38,7 @@ class IndexView(FormView):
         # Build the URL to direct to
         sub_domain = utils.get_subdomain(environment)
         url = 'https://%s.salesforce.com/services/oauth2/authorize?response_type=code&client_id=%s&redirect_uri=%s&state=%s' % (
-            sub_domain, settings.SALESFORCE_CONSUMER_KEY, urllib.quote_plus(settings.SALESFORCE_REDIRECT_URI), environment)
+            sub_domain, settings.SALESFORCE_CONSUMER_KEY, urllib.parse.quote_plus(settings.SALESFORCE_REDIRECT_URI), environment)
         return url
 
     def get_success_url(self):
@@ -139,7 +139,7 @@ class JobProcessingView(DetailView):
         job = self.get_object()
         if job.status == 'Not Started':
             # Run the job
-            scan_code.delay(job.id)
+            scan_code.apply_async(args=[job.id])
 
         return super(JobProcessingView, self).get(request, *args, **kwargs)
 
@@ -280,7 +280,7 @@ class ApiJobCreateView(View):
 
                 user = utils.get_user_with_no_id(instance_url, access_token)
 
-                print user
+                print (user)
 
                 # If response is a list, there's an error
                 # Not a great approahc, but the API returns a list when an error and a single object whe not

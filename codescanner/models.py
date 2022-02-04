@@ -57,7 +57,7 @@ class ApexClass(models.Model):
     Holds all details about an ApexClass
     """
 
-    job = models.ForeignKey(Job)
+    job = models.ForeignKey(Job,on_delete=models.DO_NOTHING,)
 
     class_id = models.CharField(max_length=18)
     class_member_id = models.CharField(max_length=18, blank=True, null=True)
@@ -83,7 +83,7 @@ class ApexPageComponent(models.Model):
     Hold details about an ApexPage
     """
 
-    job = models.ForeignKey(Job)
+    job = models.ForeignKey(Job,on_delete=models.DO_NOTHING,)
 
     sf_id = models.CharField(max_length=18)
     name = models.CharField(max_length=120)
